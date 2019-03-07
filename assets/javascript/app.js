@@ -1,8 +1,13 @@
-// set variables //
+$(document).ready(function () {
+    console.log("ready!");
+
+
+    // set variables //
+
+
 var correctAnswer = ("Great job!");
 var incorrectAnswer = ("Nice try, but not good enough!");
 var unanswered = ("Time's Up!");
-
 
 
 // questions: 
@@ -56,29 +61,30 @@ var questions = [{
     answerChoices: ["True", "False"],
     correct: "false",
 }];
+
 // console log to check 
 console.log(questions[1].question)
 console.log(questions[3].correct)
 console.log(questions[0].correct)
 
 
-//timer:
-var timer = 15;
+
 
 
 
 //START Button//
 $(".start").click(function(){ 
-    console.log("clicked");
     //this hides the start button //
     $(".start").hide();
     //show all the questions :
-    displayQuestions()
+    displayQuestions();
+    runTimer();
+
   });
   
-  $().click(function(){
-    $("").show();
-  });
+//   $().click(function(){
+//     $("").show();
+//   });
 
 function displayQuestions () {
     // get questions out of the array
@@ -98,45 +104,64 @@ function displayQuestions () {
     }
 
 }
-//on click for answer buttons
+function runTimer () {
+    if (!running) {
+        intervalID = setInterval(decrement, 1000);
+        running = true;
+    }
+}
+
+//timer countdown
+function decrement() {
+    $("#timeleft").html("<h2>Time Remaining: " + timer + "</h2>");
+    timer --;
+
+
+// stop timer once it reaches 0
+if (timer === -1) {
+    unansweredCount++;
+    clearInterval(intervalID);
+    $("#answerblock").html("<p>All out of time! Check your answers below.");
+    $("#trivia").hide();
+    scoreboard();
+}
+}
+
+function scoreboard() {
+    $("#correctquestions").html("<p>");
+    $("#incorrectquestions").html("<p>");
+    $("#unansweredquestions").html("<p>");
+
+}
+
+
+
+// on click for answer buttons
 $(document).on("click",".answer",(event) => {
     //need to get what they pick
     let userAnswer = $(this).attr("data");
     console.log("The users answer is : " + userAnswer);
     
-    //Cjeck their answer against questions[i].correct
-    if(userAnswer === correct){
+    //Check their answer against questions[i].correct
+    if(userAnswer === questions[i].correct){
+        rightCount++;
+        console.log(userAnswer)
 // figure out how to get attr out and figure out how to check user answer against correct //
     }
-})
-
-
-// var rightAnswertext = questions[currentquestion].answerList[questions[currentquestion].answer];
-//     var rightAnswerindex = questions[currentquestion].answer;
-
-
-//     if((userSelection == rightAnswerindex) && (answered == true)){
-//         correct++;
+});
 
 
 
-
-var right = 0;
-var wrong = 0;
-var unanswered = 0;
-
-
-
-
-
-
-
-
-$(document).ready(function () {
-    console.log("ready!");
-
-
-
+// start/stop of timer:
+var timer = 5;
+var intervalID;
+var rightCount = 0;
+var wrongCount = 0;
+var unansweredCount = 0;
+var holder = [];
+var userAnswer = event.click;
+var running = false;
+//timer:
 
 });
 
@@ -148,3 +173,11 @@ $(document).ready(function () {
 // the users answers will be checked against the correct answers.  
 // once the timer goes off, you will be taken to a different screen where all correct, incorrect
 // and unanswered questions will be displayed.
+
+
+
+// so now i need to check the users guess against the correct answer
+// var userGuess = event.key;
+
+
+// scoreboard
