@@ -5,9 +5,9 @@ $(document).ready(function () {
     // set variables //
 
 
-var correctAnswer = ("Great job!");
-var incorrectAnswer = ("Nice try, but not good enough!");
-var unanswered = ("Time's Up!");
+// var correctAnswer = ("Great job!");
+// var incorrectAnswer = ("Nice try, but not good enough!");
+// var unanswered = ("Time's Up!");
 
 
 // questions: 
@@ -61,6 +61,15 @@ var questions = [{
     answerChoices: ["True", "False"],
     correct: "false",
 }];
+
+
+var correctCorrect = ["questions[0].correct", "questions[1].correct", 
+"questions[1].correct", "questions[1].correct", 
+"questions[1].correct", "questions[1].correct", 
+"questions[1].correct", "questions[1].correct", 
+"questions[1].correct", "questions[1].correct"]
+
+
 
 // console log to check 
 console.log(questions[1].question)
@@ -119,51 +128,54 @@ function decrement() {
 
 // stop timer once it reaches 0
 if (timer === -1) {
-    unansweredCount++;
     clearInterval(intervalID);
-    $("#answerblock").html("<p>All out of time! Check your answers below.");
+    $("#answerblock").html("<p>All out of time! Check your answers below.</p>");
     $("#trivia").hide();
     scoreboard();
 }
 }
 
 function scoreboard() {
-    $("#correctquestions").html("<p>");
-    $("#incorrectquestions").html("<p>");
-    $("#unansweredquestions").html("<p>");
+    $("#correctquestions").html("<p>Correct Answers : " + rightCount + "</p>");
+    $("#incorrectquestions").html("<p>Incorrect Answers : " + wrongCount + "</p>");
 
 }
 
 
-
 // on click for answer buttons
-$(document).on("click",".answer",(event) => {
+$(document).on("click",".answer",function(event) {
     //need to get what they pick
     let userAnswer = $(this).attr("data");
+    // check(userAnser)
     console.log("The users answer is : " + userAnswer);
     
+   
     //Check their answer against questions[i].correct
-    if(userAnswer === questions[i].correct){
-        rightCount++;
-        console.log(userAnswer)
+    
 // figure out how to get attr out and figure out how to check user answer against correct //
-    }
+    
+if (userAnswer === correctCorrect){
+    rightCount++;    
+}
+else {
+    wrongCount++;
+}  
+ }); 
 });
 
+// why isnt my user answer checking againt the correct answer. also it is racking up only wrong answer points. >.<
 
 
 // start/stop of timer:
-var timer = 5;
+var timer = 30;
 var intervalID;
 var rightCount = 0;
 var wrongCount = 0;
-var unansweredCount = 0;
-var holder = [];
-var userAnswer = event.click;
+// var holder = [];
+
 var running = false;
 //timer:
 
-});
 
 
 // puedocode : 
@@ -176,8 +188,5 @@ var running = false;
 
 
 
-// so now i need to check the users guess against the correct answer
-// var userGuess = event.key;
-
-
-// scoreboard
+// so now i need to check the users guess against the correct answer which i created the var correctCorrect with
+//  an array of all the correct answers in the questons array
